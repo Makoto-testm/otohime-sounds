@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>🌸 乙姫のような癒しの水音を再生 | Otohime Sounds</title>
-  <meta name="description" content="乙姫のような癒しの水音・川の音・泡の音・森林音を再生できる無料サウンドプレイヤー。作業用BGMやリラックス、瞑想に最適。シンプルで美しいインターフェース。">
+  <title>乙姫の癒し水音プレイヤー | Otohime Sounds</title>
+  <meta name="description" content="乙姫のような癒しの水音・川の音・泡の音・森林音を再生できる無料サウンドプレイヤー。作業用BGMやリラックス、瞑想に最適。シンプルで美しいインターフェース。" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Google site verification -->
@@ -49,13 +49,6 @@
       margin-bottom: 20px;
       text-shadow: 0 2px 6px rgba(215, 127, 161, 0.5);
       user-select: none;
-    }
-
-    p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 30px;
-      line-height: 1.6;
     }
 
     select {
@@ -207,6 +200,7 @@
 
     <h1>🌸 Otohime Sounds</h1>
 
+    <label for="soundSelector" class="visually-hidden">サウンド選択</label>
     <select id="soundSelector" aria-label="サウンド選択">
       <option value="water1.mp3">水の音</option>
       <option value="water2.mp3">川の音</option>
@@ -220,11 +214,18 @@
 
     <div class="slider-container" aria-label="音量調整">
       <span class="icon" aria-hidden="true">🔈</span>
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.5" aria-label="音量スライダー" />
+      <input 
+        type="range" 
+        id="volumeSlider" 
+        min="0" max="1" step="0.01" value="0.5" 
+        aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.5" 
+        aria-label="音量スライダー"
+        role="slider"
+      />
       <span class="icon" aria-hidden="true">🔊</span>
     </div>
 
-    <audio id="audioPlayer" loop></audio>
+    <audio id="audioPlayer" preload="none" loop></audio>
   </div>
 
   <script>
@@ -239,11 +240,12 @@
 
     volumeSlider.addEventListener('input', () => {
       player.volume = volumeSlider.value;
+      volumeSlider.setAttribute('aria-valuenow', volumeSlider.value);
     });
 
     function toggleSound() {
       const selectedSound = selector.value;
-      if (player.src !== selectedSound) {
+      if (player.src !== location.origin + location.pathname.replace(/\/[^/]*$/, '/') + selectedSound) {
         player.src = selectedSound;
       }
 
@@ -274,5 +276,21 @@
       }
     });
   </script>
+
+  <style>
+    /* visually-hidden class for accessibility */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0,0,0,0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
+
 </body>
 </html>
