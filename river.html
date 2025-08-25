@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>AquaMelody | 森林の音</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kiwi+Maru&display=swap" rel="stylesheet" />
+  <style>
+    /* CSSはindex.htmlと同じ */
+    /* 省略（コピーでOK） */
+  </style>
+</head>
+<body>
+<div class="container" role="main" aria-label="AquaMelody">
+  <h1><img src="sakura2.png" alt="トイレの流水音やリラックス用の桜アイコン" style="width:1.5em; vertical-align:middle; margin-right:8px;">AquaMelody</h1>
+  <label for="soundSelector" class="visually-hidden">サウンド選択</label>
+  <select id="soundSelector" aria-label="サウンド選択" onchange="location=this.value;">
+    <option value="index.html">水の音</option>
+    <option value="water2.html">川の音</option>
+    <option value="river.html" selected>森林の音</option>
+    <option value="bubble.html">泡の音</option>
+  </select>
+  <button class="button" id="toggleBtn" aria-pressed="false">再生 ▶</button>
+  <div class="slider-container" aria-label="音量調整">
+    <span class="icon">🔈</span>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+    <span class="icon">🔊</span>
+  </div>
+  <audio id="audioPlayer" preload="auto" loop>
+    <source src="river.mp3" type="audio/mpeg">
+  </audio>
+</div>
+<div class="ad-space">
+  <script src="https://adm.shinobi.jp/s/4099dc0c99224f87065d7a26947e4204"></script>
+</div>
+<script>
+const player=document.getElementById('audioPlayer');
+const button=document.getElementById('toggleBtn');
+const volumeSlider=document.getElementById('volumeSlider');
+let isPlaying=false;
+player.volume=parseFloat(volumeSlider.value);
+volumeSlider.addEventListener('input',()=>{player.volume=parseFloat(volumeSlider.value);});
+button.addEventListener('click',()=>{
+if(isPlaying){player.pause(); button.innerText='再生 ▶'; button.setAttribute('aria-pressed','false');}
+else{player.play().catch(e=>console.log("再生エラー:",e)); button.innerText='停止 ■'; button.setAttribute('aria-pressed','true');}
+isPlaying=!isPlaying;
+});
+</script>
+</body>
+</html>
