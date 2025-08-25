@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>AquaMelody | 流水音を聴ける</title>
+  <title>AquaMelody | 水の音</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kiwi+Maru&display=swap" rel="stylesheet" />
@@ -22,7 +22,7 @@
       justify-content: center;
       align-items: center;
       color: #374151;
-      flex-direction: column; /* 広告を下に配置するため追加 */
+      flex-direction: column;
     }
 
     .container {
@@ -57,12 +57,8 @@
     }
 
     @keyframes sakura-float {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-12px) rotate(15deg);
-      }
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(15deg); }
     }
 
     select {
@@ -85,10 +81,7 @@
       padding-right: 45px;
     }
 
-    select:hover, select:focus {
-      border-color: #d77fa1;
-      outline: none;
-    }
+    select:hover, select:focus { border-color: #d77fa1; outline: none; }
 
     .button {
       width: 100%;
@@ -111,10 +104,7 @@
       transform: scale(1.05);
     }
 
-    .button:focus {
-      outline: 3px solid #f9b5c2;
-      outline-offset: 4px;
-    }
+    .button:focus { outline: 3px solid #f9b5c2; outline-offset: 4px; }
 
     .slider-container {
       display: flex;
@@ -122,12 +112,7 @@
       gap: 10px;
     }
 
-    .icon {
-      font-size: 1.3rem;
-      color: #d77fa1;
-      width: 30px;
-      text-align: center;
-    }
+    .icon { font-size: 1.3rem; color: #d77fa1; width: 30px; text-align: center; }
 
     input[type="range"] {
       -webkit-appearance: none;
@@ -160,26 +145,23 @@
       border: 0 !important;
     }
 
-    .ad-space {
-      margin-top: 40px;
-      text-align: center;
-    }
+    .ad-space { margin-top: 40px; text-align: center; }
   </style>
 </head>
 
 <body>
 <div class="container" role="main" aria-label="AquaMelody">
   <h1>
-    <img src="sakura2.png" alt="桜アイコン" style="width: 1.5em; vertical-align: middle; margin-right: 8px;">
+    <img src="sakura2.png" alt="トイレの流水音やリラックス用の桜アイコン" style="width: 1.5em; vertical-align: middle; margin-right: 8px;">
     AquaMelody
   </h1>
 
   <label for="soundSelector" class="visually-hidden">サウンド選択</label>
-  <select id="soundSelector" aria-label="サウンド選択">
-    <option value="water1.mp3">水の音</option>
-    <option value="water2.mp3">川の音</option>
-    <option value="river.mp3">森林の音</option>
-    <option value="bubble.mp3">泡の音</option>
+  <select id="soundSelector" aria-label="サウンド選択" onchange="location = this.value;">
+    <option value="index.html" selected>水の音</option>
+    <option value="water2.html">川の音</option>
+    <option value="river.html">森林の音</option>
+    <option value="bubble.html">泡の音</option>
   </select>
 
   <button class="button" id="toggleBtn" aria-pressed="false">再生 ▶</button>
@@ -190,18 +172,18 @@
     <span class="icon">🔊</span>
   </div>
 
-  <audio id="audioPlayer" preload="none" loop></audio>
+  <audio id="audioPlayer" preload="auto" loop>
+    <source src="water1.mp3" type="audio/mpeg">
+  </audio>
 </div>
 
-<!-- 🔽 広告スペース -->
+<!-- 広告スペース -->
 <div class="ad-space">
-  <!-- 忍者AdMaxの広告コードをここに貼る -->
   <script src="https://adm.shinobi.jp/s/4099dc0c99224f87065d7a26947e4204"></script>
 </div>
 
 <script>
   const player = document.getElementById('audioPlayer');
-  const selector = document.getElementById('soundSelector');
   const button = document.getElementById('toggleBtn');
   const volumeSlider = document.getElementById('volumeSlider');
   let isPlaying = false;
@@ -212,28 +194,16 @@
     player.volume = parseFloat(volumeSlider.value);
   });
 
-  selector.addEventListener('change', () => {
-    player.src = selector.value;
-    if (isPlaying) player.play();
-  });
-
   button.addEventListener('click', () => {
-    if (!player.src) {
-      player.src = selector.value;
-    }
-
     if (isPlaying) {
       player.pause();
       button.innerText = '再生 ▶';
-      button.classList.remove('playing');
       button.setAttribute('aria-pressed', 'false');
     } else {
       player.play().catch((e) => console.log("再生エラー:", e));
       button.innerText = '停止 ■';
-      button.classList.add('playing');
       button.setAttribute('aria-pressed', 'true');
     }
-
     isPlaying = !isPlaying;
   });
 </script>
