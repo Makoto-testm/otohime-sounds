@@ -2,44 +2,45 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Otohime Sounds | 乙姫のような水音プレイヤー</title>
-  <meta name="description" content="乙姫のような癒しの水音・川の音・泡の音・森林音を再生できる無料サウンドプレイヤー。作業用BGMやリラックス、瞑想に最適。シンプルで美しいインターフェース。" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaMelody | 流水音を聴ける</title>
 
-  <!-- Google site verification -->
-  <meta name="google-site-verification" content="jbA82RPnpni_Zp9j2jAj49_ff-w5oF0aPDh_8QC3R9g" />
-  
-  <!-- Google Fonts: Outfit -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kiwi+Maru&display=swap" rel="stylesheet" />
 
   <style>
-    /* Reset & base */
     * {
       box-sizing: border-box;
     }
+
     body {
-      margin: 0; padding: 50px 20px;
+      margin: 0;
+      padding: 50px 20px;
       min-height: 100vh;
       background: linear-gradient(135deg, #f9fafb 0%, #d9ecf2 100%);
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Kiwi Maru', 'Poppins', sans-serif;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       color: #374151;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      flex-direction: column; /* 広告を下に配置するため追加 */
     }
 
     .container {
       width: 100%;
       max-width: 420px;
-      background: rgba(255 255 255 / 0.35);
-      border-radius: 20px;
-      padding: 30px 25px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      position: relative;
+      background: rgba(255, 255, 255, 0.45);
+      background-image:
+        radial-gradient(circle at top left, #fff 20%, transparent 20%),
+        radial-gradient(circle at bottom right, #fff 20%, transparent 20%);
+      background-size: 20px 20px;
+      background-repeat: repeat;
+      border-radius: 30px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 25px rgba(215, 127, 161, 0.25);
+      border: 8px double #f9b5c2;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255 255 255 / 0.25);
     }
 
     h1 {
@@ -47,8 +48,21 @@
       font-size: 2.5rem;
       color: #d77fa1;
       margin-bottom: 20px;
+      text-align: center;
       text-shadow: 0 2px 6px rgba(215, 127, 161, 0.5);
-      user-select: none;
+    }
+
+    h1 img {
+      animation: sakura-float 4s ease-in-out infinite;
+    }
+
+    @keyframes sakura-float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(15deg);
+      }
     }
 
     select {
@@ -57,14 +71,14 @@
       padding: 12px 15px;
       border-radius: 15px;
       border: 1.5px solid #f9b5c2;
-      background: rgba(255 255 255 / 0.65);
+      background: rgba(255, 255, 255, 0.65);
       box-shadow: inset 0 1px 4px rgba(0,0,0,0.07);
       color: #87425f;
       margin-bottom: 30px;
       transition: border-color 0.3s ease;
       cursor: pointer;
       appearance: none;
-      background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg%20width%3d'12'%20height%3d'7'%20viewBox%3d'0%200%2012%207'%20xmlns%3d'http%3a//www.w3.org/2000/svg'%3e%3cpolygon%20points%3d'0%2c0%2012%2c0%206%2c7'%20fill%3d'%23874a62'%2f%3e%3c%2fsvg%3e");
+      background-image: url("data:image/svg+xml,%3csvg%20width%3d'12'%20height%3d'7'%20viewBox%3d'0%200%2012%207'%20xmlns%3d'http%3a//www.w3.org/2000/svg'%3e%3cpolygon%20points%3d'0%2c0%2012%2c0%206%2c7'%20fill%3d'%23874a62'%2f%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
       background-size: 12px 7px;
@@ -88,10 +102,7 @@
       color: white;
       box-shadow: 0 8px 18px rgba(215, 127, 161, 0.5);
       transition: all 0.3s ease;
-      user-select: none;
       margin-bottom: 30px;
-      position: relative;
-      overflow: hidden;
     }
 
     .button:hover {
@@ -105,30 +116,10 @@
       outline-offset: 4px;
     }
 
-    .button.playing::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -25%;
-      width: 150%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.6), transparent 70%);
-      animation: glowPulse 2s infinite;
-      pointer-events: none;
-      border-radius: 50%;
-    }
-
-    @keyframes glowPulse {
-      0%, 100% {opacity: 0;}
-      50% {opacity: 1;}
-    }
-
     .slider-container {
       display: flex;
       align-items: center;
       gap: 10px;
-      width: 100%;
-      user-select: none;
     }
 
     .icon {
@@ -136,149 +127,27 @@
       color: #d77fa1;
       width: 30px;
       text-align: center;
-      user-select: none;
     }
 
     input[type="range"] {
       -webkit-appearance: none;
-      appearance: none;
       width: 100%;
       height: 6px;
       background: linear-gradient(90deg, #f9b5c2 0%, #d77fa1 100%);
       border-radius: 10px;
       cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    input[type="range"]:hover {
-      background: linear-gradient(90deg, #d77fa1 0%, #f9b5c2 100%);
-    }
-
-    input[type="range"]:focus {
-      outline: none;
-      box-shadow: 0 0 8px 2px rgba(215, 127, 161, 0.6);
     }
 
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
       width: 24px;
       height: 24px;
       background: #fff;
       border-radius: 50%;
       box-shadow: 0 2px 8px rgba(215, 127, 161, 0.6);
-      transition: background 0.3s ease;
       margin-top: -9px;
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
     }
 
-    input[type="range"]::-webkit-slider-thumb:hover {
-      background: #f9b5c2;
-      box-shadow: 0 0 12px 4px #f9b5c2;
-    }
-
-    input[type="range"]::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(215, 127, 161, 0.6);
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    input[type="range"]::-moz-range-thumb:hover {
-      background: #f9b5c2;
-      box-shadow: 0 0 12px 4px #f9b5c2;
-    }
-  </style>
-</head>
-<body>
-  <div class="container" role="main" aria-label="Otohime Sounds player">
-
-    <h1>🌸 Otohime Sounds</h1>
-
-    <label for="soundSelector" class="visually-hidden">サウンド選択</label>
-    <select id="soundSelector" aria-label="サウンド選択">
-      <option value="water1.mp3">水の音</option>
-      <option value="water2.mp3">川の音</option>
-      <option value="river.mp3">森林の音</option>
-      <option value="bubble.mp3">泡の音</option>
-    </select>
-
-    <button class="button" id="toggleBtn" aria-pressed="false" aria-label="再生・停止切替ボタン">
-      再生 ▷
-    </button>
-
-    <div class="slider-container" aria-label="音量調整">
-      <span class="icon" aria-hidden="true">🔈</span>
-      <input 
-        type="range" 
-        id="volumeSlider" 
-        min="0" max="1" step="0.01" value="0.5" 
-        aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.5" 
-        aria-label="音量スライダー"
-        role="slider"
-      />
-      <span class="icon" aria-hidden="true">🔊</span>
-    </div>
-
-    <audio id="audioPlayer" preload="none" loop></audio>
-  </div>
-
-  <script>
-    const player = document.getElementById('audioPlayer');
-    const selector = document.getElementById('soundSelector');
-    const button = document.getElementById('toggleBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-
-    let isPlaying = false;
-
-    player.volume = volumeSlider.value;
-
-    volumeSlider.addEventListener('input', () => {
-      player.volume = volumeSlider.value;
-      volumeSlider.setAttribute('aria-valuenow', volumeSlider.value);
-    });
-
-    function toggleSound() {
-      const selectedSound = selector.value;
-      if (player.src !== location.origin + location.pathname.replace(/\/[^/]*$/, '/') + selectedSound) {
-        player.src = selectedSound;
-      }
-
-      if (!isPlaying) {
-        player.play();
-        isPlaying = true;
-        button.textContent = '停止 ⏹';
-        button.classList.add('playing');
-        button.setAttribute('aria-pressed', 'true');
-      } else {
-        player.pause();
-        isPlaying = false;
-        button.textContent = '再生 ▷';
-        button.classList.remove('playing');
-        button.setAttribute('aria-pressed', 'false');
-      }
-    }
-
-    button.addEventListener('click', toggleSound);
-
-    selector.addEventListener('change', () => {
-      if (isPlaying) {
-        player.pause();
-        player.src = selector.value;
-        player.play();
-      } else {
-        player.src = selector.value;
-      }
-    });
-  </script>
-
-  <style>
-    /* visually-hidden class for accessibility */
     .visually-hidden {
       position: absolute !important;
       width: 1px !important;
@@ -290,7 +159,83 @@
       white-space: nowrap !important;
       border: 0 !important;
     }
-  </style>
 
+    .ad-space {
+      margin-top: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container" role="main" aria-label="AquaMelody">
+  <h1>
+    <img src="sakura2.png" alt="桜アイコン" style="width: 1.5em; vertical-align: middle; margin-right: 8px;">
+    AquaMelody
+  </h1>
+
+  <label for="soundSelector" class="visually-hidden">サウンド選択</label>
+  <select id="soundSelector" aria-label="サウンド選択">
+    <option value="water1.mp3">水の音</option>
+    <option value="water2.mp3">川の音</option>
+    <option value="river.mp3">森林の音</option>
+    <option value="bubble.mp3">泡の音</option>
+  </select>
+
+  <button class="button" id="toggleBtn" aria-pressed="false">再生 ▶</button>
+
+  <div class="slider-container" aria-label="音量調整">
+    <span class="icon">🔈</span>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+    <span class="icon">🔊</span>
+  </div>
+
+  <audio id="audioPlayer" preload="none" loop></audio>
+</div>
+
+<!-- 🔽 広告スペース -->
+<div class="ad-space">
+  <!-- 忍者AdMaxの広告コードをここに貼る -->
+  <script src="https://adm.shinobi.jp/s/xxxxxxxxxx"></script>
+</div>
+
+<script>
+  const player = document.getElementById('audioPlayer');
+  const selector = document.getElementById('soundSelector');
+  const button = document.getElementById('toggleBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+  let isPlaying = false;
+
+  player.volume = parseFloat(volumeSlider.value);
+
+  volumeSlider.addEventListener('input', () => {
+    player.volume = parseFloat(volumeSlider.value);
+  });
+
+  selector.addEventListener('change', () => {
+    player.src = selector.value;
+    if (isPlaying) player.play();
+  });
+
+  button.addEventListener('click', () => {
+    if (!player.src) {
+      player.src = selector.value;
+    }
+
+    if (isPlaying) {
+      player.pause();
+      button.innerText = '再生 ▶';
+      button.classList.remove('playing');
+      button.setAttribute('aria-pressed', 'false');
+    } else {
+      player.play().catch((e) => console.log("再生エラー:", e));
+      button.innerText = '停止 ■';
+      button.classList.add('playing');
+      button.setAttribute('aria-pressed', 'true');
+    }
+
+    isPlaying = !isPlaying;
+  });
+</script>
 </body>
 </html>
