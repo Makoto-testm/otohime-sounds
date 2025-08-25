@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>AquaMelody | 川の音</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kiwi+Maru&display=swap" rel="stylesheet" />
+  <style>
+    /* ここはindex.htmlと同じCSS */
+    * { box-sizing: border-box; }
+    body { margin: 0; padding:50px 20px; min-height:100vh; background:linear-gradient(135deg,#f9fafb 0%,#d9ecf2 100%); font-family:'Kiwi Maru','Poppins',sans-serif; display:flex; justify-content:center; align-items:center; color:#374151; flex-direction:column; }
+    .container { width:100%; max-width:420px; position:relative; background:rgba(255,255,255,0.45); background-image:radial-gradient(circle at top left,#fff 20%,transparent 20%),radial-gradient(circle at bottom right,#fff 20%,transparent 20%); background-size:20px 20px; background-repeat:repeat; border-radius:30px; padding:40px 30px; box-shadow:0 10px 25px rgba(215,127,161,0.25); border:8px double #f9b5c2; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+    h1 { font-weight:700; font-size:2.5rem; color:#d77fa1; margin-bottom:20px; text-align:center; text-shadow:0 2px 6px rgba(215,127,161,0.5); }
+    h1 img { animation:sakura-float 4s ease-in-out infinite; }
+    @keyframes sakura-float {0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-12px) rotate(15deg);}}
+    select { width:100%; font-size:1.1rem; padding:12px 15px; border-radius:15px; border:1.5px solid #f9b5c2; background:rgba(255,255,255,0.65); box-shadow:inset 0 1px 4px rgba(0,0,0,0.07); color:#87425f; margin-bottom:30px; transition:border-color 0.3s ease; cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3csvg%20width%3d'12'%20height%3d'7'%20viewBox%3d'0%200%2012%207'%20xmlns%3d'http%3a//www.w3.org/2000/svg'%3e%3cpolygon%20points%3d'0%2c0%2012%2c0%206%2c7'%20fill%3d'%23874a62'%2f%3e%3c/svg%3e"); background-repeat:no-repeat; background-position:right 15px center; background-size:12px 7px; padding-right:45px; }
+    select:hover,select:focus{border-color:#d77fa1;outline:none;}
+    .button { width:100%; padding:16px 0; font-size:1.3rem; font-weight:700; border-radius:25px; border:none; cursor:pointer; background:linear-gradient(90deg,#f9b5c2 0%,#d77fa1 100%); color:white; box-shadow:0 8px 18px rgba(215,127,161,0.5); transition:all 0.3s ease; margin-bottom:30px;}
+    .button:hover { background:linear-gradient(90deg,#d77fa1 0%,#f9b5c2 100%); box-shadow:0 12px 24px rgba(215,127,161,0.8); transform:scale(1.05);}
+    .button:focus { outline:3px solid #f9b5c2; outline-offset:4px;}
+    .slider-container { display:flex; align-items:center; gap:10px; }
+    .icon { font-size:1.3rem; color:#d77fa1; width:30px; text-align:center; }
+    input[type="range"] {-webkit-appearance:none; width:100%; height:6px; background:linear-gradient(90deg,#f9b5c2 0%,#d77fa1 100%); border-radius:10px; cursor:pointer;}
+    input[type="range"]::-webkit-slider-thumb {-webkit-appearance:none; width:24px; height:24px; background:#fff; border-radius:50%; box-shadow:0 2px 8px rgba(215,127,161,0.6); margin-top:-9px;}
+    .visually-hidden { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+    .ad-space { margin-top:40px; text-align:center; }
+  </style>
+</head>
+<body>
+<div class="container" role="main" aria-label="AquaMelody">
+  <h1><img src="sakura2.png" alt="トイレの流水音やリラックス用の桜アイコン" style="width:1.5em; vertical-align:middle; margin-right:8px;">AquaMelody</h1>
+  <label for="soundSelector" class="visually-hidden">サウンド選択</label>
+  <select id="soundSelector" aria-label="サウンド選択" onchange="location=this.value;">
+    <option value="index.html">水の音</option>
+    <option value="water2.html" selected>川の音</option>
+    <option value="river.html">森林の音</option>
+    <option value="bubble.html">泡の音</option>
+  </select>
+  <button class="button" id="toggleBtn" aria-pressed="false">再生 ▶</button>
+  <div class="slider-container" aria-label="音量調整">
+    <span class="icon">🔈</span>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+    <span class="icon">🔊</span>
+  </div>
+  <audio id="audioPlayer" preload="auto" loop>
+    <source src="water2.mp3" type="audio/mpeg">
+  </audio>
+</div>
+<div class="ad-space">
+  <script src="https://adm.shinobi.jp/s/4099dc0c99224f87065d7a26947e4204"></script>
+</div>
+<script>
+const player=document.getElementById('audioPlayer');
+const button=document.getElementById('toggleBtn');
+const volumeSlider=document.getElementById('volumeSlider');
+let isPlaying=false;
+player.volume=parseFloat(volumeSlider.value);
+volumeSlider.addEventListener('input',()=>{player.volume=parseFloat(volumeSlider.value);});
+button.addEventListener('click',()=>{
+if(isPlaying){player.pause(); button.innerText='再生 ▶'; button.setAttribute('aria-pressed','false');}
+else{player.play().catch(e=>console.log("再生エラー:",e)); button.innerText='停止 ■'; button.setAttribute('aria-pressed','true');}
+isPlaying=!isPlaying;
+});
+</script>
+</body>
+</html>
